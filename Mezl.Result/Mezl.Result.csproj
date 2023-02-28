@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Version>1.1.0</Version>
+    <Authors>Libor Mézl</Authors>
+    <RepositoryUrl>https://github.com/libormezl/mezl-result</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Description>Simple library used to write code with railway oriented programming approach</Description>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/libormezl/mezl-result</PackageProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../Assets/icon.png" Pack="true" PackagePath="\" />
+    <None Include="../readme.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+</Project>

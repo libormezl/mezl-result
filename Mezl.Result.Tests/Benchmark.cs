@@ -1,0 +1,95 @@
+using System.Diagnostics;
+using Xunit.Abstractions;
+
+namespace Mezl.Result.Tests
+{
+    public class Benchmark
+    {
+        private class ReasonNotImplemented : Reason { }
+
+        private readonly ITestOutputHelper _testOutputHelper;
+
+        public Benchmark(ITestOutputHelper testOutputHelper)
+        {
+            _testOutputHelper = testOutputHelper;
+        }
+
+        private string MethodThrowingException(int counter)
+        {
+            if (counter == 0)
+            {
+                throw new NotImplementedException();
+            }
+
+            return MethodThrowingException(--counter);
+        }
+
+        private Result<string> MethodReturningR(int counter)
+        {
+            if (counter == 0)
+            {
+                return Reason.New<ReasonNotImplemented>();
+            }
+
+            var result = MethodReturningR(--counter);
+            if (result.IsNotSuccessful)
+            {
+                return result.Reason;
+            }
+
+            throw new InvalidOperationException("This should not happen in this test");
+        }
+
+        private const int CallStackSize = 0;
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(100)]
+        [InlineData(10000)]
+        [InlineData(1000000)]
+        public void MeasureWithException(int count)
+        {
+            var stopwatch = Stopwatch.StartNew();
+
+            for (var i = 0; i < count; i++)
+            {
+                try
+                {
+                    MethodThrowingException(CallStackSize);
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
+
+            stopwatch.Stop();
+
+            _testOutputHelper.WriteLine($"Count: {count}, Elapsed {stopwatch.ElapsedMilliseconds} ms");
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(100)]
+        [InlineData(10000)]
+        [InlineData(1000000)]
+        public void MeasureWithR(int count)
+        {
+            var stopwatch = Stopwatch.StartNew();
+
+            for (var i = 0; i < count; i++)
+            {
+                var result = MethodReturningR(CallStackSize);
+                if (result.IsNotSuccessful)
+                {
+                    //var aa = result.Reason.PrintCallStack();
+                    // do something
+                }
+            }
+
+            stopwatch.Stop();
+
+            _testOutputHelper.WriteLine($"Count: {count}, Elapsed {stopwatch.ElapsedMilliseconds} ms");
+        }
+    }
+}
