@@ -1,60 +1,66 @@
 namespace Mezl.Result;
 
-public readonly struct Result
-{
-    public static Result Success = new();
 
-    private Result(Reason value)
+public class R
+{
+    public static R Success = new();
+
+    protected R()
+    {
+        Reason = null;
+    }
+
+    protected R(Reason value)
     {
         Reason = value;
     }
 
     public readonly Reason Reason;
-
     public bool IsSuccessful => Reason is null;
     public bool IsNotSuccessful => Reason is not null;
 
-    public bool Is<T>() where T : Reason
-    {
-        return IsSuccessful && Reason is T;
-    }
+    public static implicit operator R(Reason reason) => new(reason);
 
-    public static implicit operator Result(Reason reason) => new(reason);
-
-    public static implicit operator Reason(Result value) => value.Reason;
+    public static implicit operator Reason(R value) => value.Reason;
 }
 
-public readonly struct Result<TValue>
+public class R<TValue> : R
 {
-    private Result(TValue value)
+    protected internal R(TValue value)
     {
         Value = value;
-        Reason = null;
     }
 
-    private Result(Reason value)
+    protected internal R(Reason value) : base(value)
     {
         Value = default;
-        Reason = value;
     }
 
     public readonly TValue Value;
 
-    public readonly Reason Reason;
+    public static implicit operator R<TValue>(TValue value) => new(value);
 
-    public bool IsSuccessful => Reason is null;
-    public bool IsNotSuccessful => Reason is not null;
+    public static implicit operator R<TValue>(Reason reason) => new(reason);
 
-    public bool Is<T>() where T : Reason
-    {
-        return IsSuccessful && Reason is T;
-    }
+    public static implicit operator TValue(R<TValue> value) => value.Value;
 
-    public static implicit operator Result<TValue>(TValue value) => new(value);
+    public static implicit operator Reason(R<TValue> value) => value.Reason;
+}
 
-    public static implicit operator Result<TValue>(Reason reason) => new(reason);
+/// <summary>
+/// For these who do not like R
+/// </summary>
+public class Result<TValue> : R<TValue>
+{
+    protected internal Result(TValue value) : base(value) { }
 
-    public static implicit operator TValue(Result<TValue> value) => value.Value;
+    protected internal Result(Reason value) : base(value) { }
+}
 
-    public static implicit operator Reason(Result<TValue> value) => value.Reason;
+/// <summary>
+/// For these who do not like R
+/// </summary>
+public class Result : R
+{
+    protected internal Result(Reason value) : base(value) { }
 }

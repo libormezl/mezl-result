@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using Mezl.Result.Handler;
+using Microsoft.Extensions.DependencyInjection;
 using Xunit.Abstractions;
 
 namespace Mezl.Result.Tests
@@ -24,14 +26,14 @@ namespace Mezl.Result.Tests
             return MethodThrowingException(--counter);
         }
 
-        private Result<string> MethodReturningR(int counter)
+        private R<string> MethodReturningResult(int counter)
         {
             if (counter == 0)
             {
                 return Reason.New<ReasonNotImplemented>();
             }
 
-            var result = MethodReturningR(--counter);
+            var result = MethodReturningResult(--counter);
             if (result.IsNotSuccessful)
             {
                 return result.Reason;
@@ -42,7 +44,7 @@ namespace Mezl.Result.Tests
 
         private const int CallStackSize = 0;
 
-        [Theory]
+        [Theory(Skip = "Integration")]
         [InlineData(1)]
         [InlineData(100)]
         [InlineData(10000)]
@@ -68,18 +70,18 @@ namespace Mezl.Result.Tests
             _testOutputHelper.WriteLine($"Count: {count}, Elapsed {stopwatch.ElapsedMilliseconds} ms");
         }
 
-        [Theory]
+        [Theory(Skip = "Integration")]
         [InlineData(1)]
         [InlineData(100)]
         [InlineData(10000)]
         [InlineData(1000000)]
-        public void MeasureWithR(int count)
+        public void MeasureWithResult(int count)
         {
             var stopwatch = Stopwatch.StartNew();
 
             for (var i = 0; i < count; i++)
             {
-                var result = MethodReturningR(CallStackSize);
+                var result = MethodReturningResult(CallStackSize);
                 if (result.IsNotSuccessful)
                 {
                     //var aa = result.Reason.PrintCallStack();
