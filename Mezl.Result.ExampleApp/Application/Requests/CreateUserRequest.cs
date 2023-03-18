@@ -7,7 +7,7 @@ namespace Mezl.Result.ExampleApp.Application.Requests
 {
     public record CreateUserRequest(string Name, string UserName, string Email, int Age) : IRequest<Id>;
 
-    public class CreateUserValidator : IAsyncValidator<CreateUserRequest>
+    public class CreateUserValidator : IValidator<CreateUserRequest>
     {
         private readonly UserRepository _userRepository;
 
@@ -16,9 +16,9 @@ namespace Mezl.Result.ExampleApp.Application.Requests
             _userRepository = userRepository;
         }
 
-        public async Task<R> ValidateAsync(CreateUserRequest request, CancellationToken cancellationToken)
+        public R Validate(CreateUserRequest request)
         {
-            var validationContext = ValidationContext.New();
+            var validationContext = new ValidationContext();
 
             validationContext.Property(request.Name).NotNull();
 

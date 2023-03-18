@@ -5,12 +5,6 @@ namespace Mezl.Result.Validation;
 
 public class ValidationContext
 {
-    private ValidationContext() { }
-
-    public static ValidationContext New()
-    {
-        return new ValidationContext();
-    }
 
     private Dictionary<string, List<string>> _dictionary;
 
@@ -40,7 +34,7 @@ public class ValidationContext
 
     public R GetValidationResult()
     {
-        if (_dictionary.Any())
+        if (_dictionary != null && _dictionary.Any())
         {
             return Reason.New<ReasonValidationFailed>().AddInit(_dictionary);
         }

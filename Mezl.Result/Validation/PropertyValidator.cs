@@ -14,7 +14,7 @@ public class PropertyValidator<T>
         Value = value;
     }
 
-    public void Add(string error)
+    internal void Add(string error)
     {
         _validationContext.Add(PropertyName, error);
     }

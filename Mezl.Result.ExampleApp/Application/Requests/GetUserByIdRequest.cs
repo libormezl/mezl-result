@@ -6,13 +6,11 @@ namespace Mezl.Result.ExampleApp.Application.Requests
     public record UserByIdResponse(string Name, string UserName, string Email, int Age);
     public record GetUserByIdRequest(int Id) : IRequest<UserByIdResponse>;
 
-    public class UserByIdValidator : IAsyncValidator<GetUserByIdRequest>
+    public class UserByIdValidator : IValidator<GetUserByIdRequest>
     {
-        // todo: create sync validator
-
-        public async Task<R> ValidateAsync(GetUserByIdRequest request, CancellationToken cancellationToken)
+        public R Validate(GetUserByIdRequest request)
         {
-            var validationReason = ValidationContext.New();
+            var validationReason = new ValidationContext();
             validationReason.Property(request.Id).Should(i => i > 0, "Is not valid id");
 
             return validationReason.GetValidationResult();

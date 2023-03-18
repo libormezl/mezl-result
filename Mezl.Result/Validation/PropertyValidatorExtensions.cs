@@ -16,7 +16,7 @@ namespace Mezl.Result.Validation
 
         public static PropertyValidator<T> InRange<T>(this PropertyValidator<T> context, T from, T to, string messageOnError = "Is Not in Range <{0}, {1}>") where T : IComparable
         {
-            if (context.Value.CompareTo(from) > 0 && context.Value.CompareTo(to) < 0)
+            if (context.Value.CompareTo(from) < 0 ||  context.Value.CompareTo(to) > 0)
             {
                 context.Add(string.Format(messageOnError, from, to));
             }
