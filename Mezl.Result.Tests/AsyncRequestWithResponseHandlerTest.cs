@@ -24,7 +24,7 @@ public class AsyncRequestWithResponseHandlerTest
     {
         public Task<R> ValidateAsync(ExampleRequest request, CancellationToken cancellationToken)
         {
-            var result = request.ValidationFailed == false ? R.Success : Reason.New<ValidationFailedReason>().Add("test", "notset");
+            var result = request.ValidationFailed == false ? R.Success : Reason.New<ReasonValidationFailed>().Add("test", "notset");
             return Task.FromResult(result);
         }
     }
@@ -49,6 +49,6 @@ public class AsyncRequestWithResponseHandlerTest
     {
         var result = await ExecutorFactory.CreateExecutor().ExecuteAsync(new ExampleRequest(false, true), CancellationToken.None);
 
-        Assert.True(result.Is<ValidationFailedReason>());
+        Assert.True(result.Is<ReasonValidationFailed>());
     }
 }

@@ -61,7 +61,7 @@ internal class RequestExecutor : IRequestExecutor
         return (handlerObject, handler);
     }
 
-    public async void ExecuteAsync(INotification request)
+    public async void Notify(INotification request)
     {
         var requestType = request.GetType();
 

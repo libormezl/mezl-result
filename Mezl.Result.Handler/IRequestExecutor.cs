@@ -6,5 +6,5 @@ public interface IRequestExecutor
 
     Task<R> ExecuteAsync(IRequest request, CancellationToken cancellationToken);
 
-    void ExecuteAsync(INotification request);
+    void Notify(INotification request);
 }

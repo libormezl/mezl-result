@@ -3,8 +3,7 @@
     public static class ResultExtensions
     {
         #region Maps
-
-        public static R<T> Map<T, TU>(this R<TU> result, Func<TU, Result<T>> func)
+        public static R<T> OnSuccess<T, TU>(this R<TU> result, Func<TU, T> func, string callInfo = null)
         {
             if (result.IsNotSuccessful)
             {
@@ -14,7 +13,7 @@
             return func(result.Value);
         }
 
-        public static R Map<T>(this R<T> result, Func<T, Result> func)
+        public static R<TU> Mapa<T, TU>(this R<T> result, Func<T, R<TU>> func)
         {
             if (result.IsNotSuccessful)
             {
@@ -23,6 +22,16 @@
 
             return func(result.Value);
         }
+
+        //public static R Map<T>(this R<T> result, Func<T, Result> func)
+        //{
+        //    if (result.IsNotSuccessful)
+        //    {
+        //        return result.Reason;
+        //    }
+
+        //    return func(result.Value);
+        //}
 
         public static async Task<R<T>> MapAsync<T, TU>(this R<TU> result, Func<TU, Task<Result<T>>> func)
         {

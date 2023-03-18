@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mezl.Result.Extensions", "M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mezl.Result.Handler", "Mezl.Result.Handler\Mezl.Result.Handler.csproj", "{1B91D017-FC95-4AB4-813D-F1719A99D064}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mezl.Result.ExampleApp", "Mezl.Result.ExampleApp\Mezl.Result.ExampleApp.csproj", "{98FACC67-7242-4E90-8D62-632B79855B4A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{5BB24D83-6EBD-41FA-86BB-9E391C8D4039}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,9 +37,16 @@ Global
 		{1B91D017-FC95-4AB4-813D-F1719A99D064}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B91D017-FC95-4AB4-813D-F1719A99D064}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B91D017-FC95-4AB4-813D-F1719A99D064}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98FACC67-7242-4E90-8D62-632B79855B4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98FACC67-7242-4E90-8D62-632B79855B4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98FACC67-7242-4E90-8D62-632B79855B4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98FACC67-7242-4E90-8D62-632B79855B4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{98FACC67-7242-4E90-8D62-632B79855B4A} = {5BB24D83-6EBD-41FA-86BB-9E391C8D4039}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {78E9CCDC-7474-4E6A-8461-46B255549F0E}

@@ -6,7 +6,7 @@
 //    {
 //        public int Id { get; set; }
 
-//        public string Name { get; set; }
+//        public string PropertyName { get; set; }
 
 //        public string Email { get; set; }
 
@@ -30,7 +30,7 @@
 //            {
 //                Id = id,
 //                Email = "test@email.com",
-//                Name = "Name",
+//                PropertyName = "PropertyName",
 //                Activated = id == 2
 //            };
 //        }
