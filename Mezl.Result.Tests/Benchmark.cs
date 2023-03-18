@@ -1,6 +1,4 @@
 using System.Diagnostics;
-using Mezl.Result.Handler;
-using Microsoft.Extensions.DependencyInjection;
 using Xunit.Abstractions;
 
 namespace Mezl.Result.Tests

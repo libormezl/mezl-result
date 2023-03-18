@@ -1,5 +1,4 @@
-﻿using Mezl.Result.Extensions;
-using Mezl.Result.Handler;
+﻿using Mezl.Result.Handler;
 using Mezl.Result.Reasons;
 using Mezl.Result.Tests.Common;
 
@@ -16,6 +15,15 @@ public class AsyncRequestWithoutResponseHandlerTest
         {
             var result = request.IsOk ? R.Success : Reason.New<ReasonNotFound>();
             return Task.FromResult(result);
+        }
+    }
+
+    [Lifecycle(Lifecycle.Singleton)]
+    private class ExampleRequestValidator : IValidator<ExampleRequest>
+    {
+        public R Validate(ExampleRequest request)
+        {
+            return R.Success;
         }
     }
 

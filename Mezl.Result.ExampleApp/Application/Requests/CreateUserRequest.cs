@@ -1,7 +1,7 @@
 ﻿using Mezl.Result.ExampleApp.Application.Repositories;
-using Mezl.Result.Extensions;
 using Mezl.Result.Handler;
 using Mezl.Result.Reasons;
+using Mezl.Result.Validation;
 
 namespace Mezl.Result.ExampleApp.Application.Requests
 {

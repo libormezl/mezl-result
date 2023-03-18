@@ -1,6 +1,6 @@
-﻿namespace Mezl.Result.Extensions
+﻿namespace Mezl.Result
 {
-    public static class BasicResultExtensions
+    public static class ResultExtensions
     {
         public static bool Is<T>(this R result) where T : Reason
         {

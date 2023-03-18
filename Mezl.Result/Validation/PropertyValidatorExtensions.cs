@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using Mezl.Result.Reasons;
+﻿using System.Net.Mail;
 
-namespace Mezl.Result.Extensions
+namespace Mezl.Result.Validation
 {
     public static class PropertyValidatorExtensions
     {

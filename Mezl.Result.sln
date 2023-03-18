@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mezl.Result", "Mezl.Result\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mezl.Result.Tests", "Mezl.Result.Tests\Mezl.Result.Tests.csproj", "{E856F491-B9C7-437E-BB6D-697A3AD900BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mezl.Result.Extensions", "Mezl.Result.Extensions\Mezl.Result.Extensions.csproj", "{7F50C889-F968-4782-9C3F-A6A1FBD234AE}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mezl.Result.Handler", "Mezl.Result.Handler\Mezl.Result.Handler.csproj", "{1B91D017-FC95-4AB4-813D-F1719A99D064}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mezl.Result.ExampleApp", "Mezl.Result.ExampleApp\Mezl.Result.ExampleApp.csproj", "{98FACC67-7242-4E90-8D62-632B79855B4A}"
@@ -29,10 +27,6 @@ Global
 		{E856F491-B9C7-437E-BB6D-697A3AD900BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E856F491-B9C7-437E-BB6D-697A3AD900BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E856F491-B9C7-437E-BB6D-697A3AD900BB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7F50C889-F968-4782-9C3F-A6A1FBD234AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7F50C889-F968-4782-9C3F-A6A1FBD234AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7F50C889-F968-4782-9C3F-A6A1FBD234AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7F50C889-F968-4782-9C3F-A6A1FBD234AE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1B91D017-FC95-4AB4-813D-F1719A99D064}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1B91D017-FC95-4AB4-813D-F1719A99D064}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B91D017-FC95-4AB4-813D-F1719A99D064}.Release|Any CPU.ActiveCfg = Release|Any CPU

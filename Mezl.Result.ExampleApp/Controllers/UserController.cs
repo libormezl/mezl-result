@@ -33,12 +33,5 @@ namespace Mezl.Result.ExampleApp.Controllers
             var result = await _requestExecutor.ExecuteAsync(request, CancellationToken.None);
             return result.IsSuccessful ? Ok(result) : BadRequest(result);
         }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] UserModel model)
-        {
-            var result = await _requestExecutor.ExecuteAsync(new CreateUserRequest(model, ), CancellationToken.None);
-            return result.IsSuccessful ? Ok(result) : BadRequest(result);
-        }
     }
 }

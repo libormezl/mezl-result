@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mezl.Result.Extensions\Mezl.Result.Extensions.csproj" />
     <ProjectReference Include="..\Mezl.Result.Handler\Mezl.Result.Handler.csproj" />
   </ItemGroup>
 

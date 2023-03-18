@@ -1,6 +1,4 @@
-﻿
-using System.Reflection;
-using System.Threading;
+﻿using System.Reflection;
 
 namespace Mezl.Result.Handler;
 
@@ -92,11 +90,17 @@ internal class RequestExecutor : IRequestExecutor
                                   ?? throw new InvalidOperationException(
                                       $"Service for '{requestType.Name}' is not registered");
 
-            var validationResult = await (validator.Invoke(validatorObject, request, cancellationToken) as Task<R>)!;
-            if (validationResult.IsNotSuccessful)
-            {
-                return validationResult.Reason;
-            }
+            return await (validator.Invoke(validatorObject, request, cancellationToken) as Task<R>)!;
+        }
+
+        validator = FastMethodInfo(validatorType, requestType, _validatorsMethodCache, "Validate", false);
+        if (validator != null)
+        {
+            var validatorObject = _serviceProvider.GetService(validatorType)
+                                  ?? throw new InvalidOperationException(
+                                      $"Service for '{requestType.Name}' is not registered");
+
+            return (validator.Invoke(validatorObject, request) as R)!;
         }
 
         return R.Success;

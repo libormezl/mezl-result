@@ -1,5 +1,4 @@
-﻿using Mezl.Result.Extensions;
-using Mezl.Result.Handler;
+﻿using Mezl.Result.Handler;
 using Mezl.Result.Reasons;
 using Mezl.Result.Tests.Common;
 
@@ -24,7 +23,7 @@ public class AsyncRequestWithResponseHandlerTest
     {
         public Task<R> ValidateAsync(ExampleRequest request, CancellationToken cancellationToken)
         {
-            var result = request.ValidationFailed == false ? R.Success : Reason.New<ReasonValidationFailed>().Add("test", "notset");
+            var result = request.ValidationFailed == false ? R.Success : Reason.New<ReasonValidationFailed>();
             return Task.FromResult(result);
         }
     }

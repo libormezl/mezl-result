@@ -20,7 +20,8 @@ public static class ServiceCollectionExtension
 
         var validators = new[]
         {
-            typeof(IAsyncValidator<>)
+            typeof(IAsyncValidator<>),
+            typeof(IValidator<>)
         };
 
         var lifecycleAttributeType = typeof(LifecycleAttribute);

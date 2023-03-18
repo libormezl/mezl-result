@@ -1,10 +1,10 @@
 namespace Mezl.Result.Reasons;
 
-public class AggregatedReason : Reason
+public class ReasonAggregated : Reason
 {
     public readonly IReadOnlyCollection<Reason> Reasons;
 
-    public AggregatedReason(IReadOnlyCollection<Reason> reasons)
+    public ReasonAggregated(params Reason[] reasons)
     {
         Reasons = reasons;
     }

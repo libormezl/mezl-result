@@ -1,6 +1,4 @@
-﻿using Mezl.Result.Extensions;
-using Mezl.Result.Handler;
-using Mezl.Result.Reasons;
+﻿using Mezl.Result.Handler;
 using Mezl.Result.Tests.Common;
 
 namespace Mezl.Result.Tests;
@@ -21,6 +19,6 @@ public class AsyncNotificationHandlerTest
     [Fact]
     public async Task AsyncRequestWithoutResponseHandler_Success()
     {
-        ExecutorFactory.CreateExecutor().ExecuteAsync(new ExampleNotification());
+        ExecutorFactory.CreateExecutor().Notify(new ExampleNotification());
     }
 }
