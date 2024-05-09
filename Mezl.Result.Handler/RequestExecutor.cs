@@ -9,6 +9,7 @@ internal class RequestExecutor : IRequestExecutor
     private readonly ValidatorsCache _validatorsCache;
     private readonly Dictionary<Type, FastMethodInfo> _handlersMethodCache = new();
     private readonly Dictionary<Type, FastMethodInfo> _validatorsMethodCache = new();
+    private readonly Dictionary<Type, FastMethodInfo> _asyncValidatorsMethodCache = new();
 
     public RequestExecutor(IServiceProvider serviceProvider, HandlersCache handlersCache, ValidatorsCache validatorsCache)
     {
@@ -83,7 +84,7 @@ internal class RequestExecutor : IRequestExecutor
             return R.Success;
         }
 
-        var validator = FastMethodInfo(validatorType, requestType, _validatorsMethodCache, "ValidateAsync", false);
+        var validator = FastMethodInfo(validatorType, requestType, _asyncValidatorsMethodCache, "ValidateAsync", false);
         if (validator != null)
         {
             var validatorObject = _serviceProvider.GetService(validatorType)
