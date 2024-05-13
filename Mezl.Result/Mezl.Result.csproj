@@ -12,6 +12,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/libormezl/mezl-result</PackageProjectUrl>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
