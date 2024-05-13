@@ -38,7 +38,12 @@ namespace Mezl.Result.ExampleApp.Application.Requests
         }
     }
 
-    public class CreateUserHandler : IAsyncRequestHandler<CreateUserRequest, Id>
+    public abstract class Base : IAsyncRequestHandler<CreateUserRequest, Id>
+    {
+        public abstract Task<R<Id>> HandleAsync(CreateUserRequest request, CancellationToken cancellationToken);
+    }
+
+    public class CreateUserHandler : Base
     {
         public record UserCreated(string Name, string UserName, string Email, int Age) : INotification;
 
@@ -51,7 +56,7 @@ namespace Mezl.Result.ExampleApp.Application.Requests
             _requestExecutor = requestExecutor;
         }
 
-        public async Task<R<Id>> HandleAsync(CreateUserRequest request, CancellationToken cancellationToken)
+        public override async Task<R<Id>> HandleAsync(CreateUserRequest request, CancellationToken cancellationToken)
         {
             var result = await _userRepository.SaveUserAsync(request, cancellationToken);
             return result.Reason switch

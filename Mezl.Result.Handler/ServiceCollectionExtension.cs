@@ -30,6 +30,11 @@ public static class ServiceCollectionExtension
         {
             foreach (var type in assembly.GetTypes())
             {
+                if (type.IsAbstract)
+                {
+                    continue;
+                }
+
                 var handlerType = type
                     .GetInterfaces()
                     .FirstOrDefault(x => x.IsGenericType && handlers.Contains(x.GetGenericTypeDefinition()));
@@ -69,7 +74,7 @@ public static class ServiceCollectionExtension
                 {
                     validatorsCache.TryAdd(validatorType.GenericTypeArguments[0], type);
                 }
-                else if (handlerType != null)
+                else
                 {
                     handlersCache.TryAdd(handlerType.GenericTypeArguments[0], type);
                 }

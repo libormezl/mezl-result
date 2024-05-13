@@ -1,3 +1,6 @@
+using Mezl.Result.ExampleApp.Application.Repositories;
+using Mezl.Result.Handler;
+
 namespace Mezl.Result.ExampleApp
 {
     public class Program
@@ -12,6 +15,8 @@ namespace Mezl.Result.ExampleApp
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddHandlers();
+            builder.Services.AddTransient<UserRepository>();
 
             var app = builder.Build();
 
