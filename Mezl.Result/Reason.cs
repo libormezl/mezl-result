@@ -23,6 +23,7 @@ public abstract class Reason
 
     public static TReason New<TReason>(string message = null, [CallerMemberName] string methodName = "", [CallerLineNumber] int lineNumber = -1, [CallerFilePath] string filePath = "") where TReason : Reason, new()
     {
-        return new TReason { Message = message, MethodInfo = $" - {filePath} -> {methodName} -> {lineNumber}" };
+        var clasName = Path.GetFileNameWithoutExtension(filePath);
+        return new TReason { Message = message, MethodInfo = $" - {clasName}.{methodName}:{lineNumber}" };
     }
 }
