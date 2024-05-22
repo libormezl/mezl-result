@@ -1,95 +1,94 @@
 using System.Diagnostics;
 using Xunit.Abstractions;
 
-namespace Mezl.Result.Tests
+namespace Mezl.Result.Tests;
+
+public class Benchmark
 {
-    public class Benchmark
+    private class ReasonNotImplemented : Reason { }
+
+    private readonly ITestOutputHelper _testOutputHelper;
+
+    public Benchmark(ITestOutputHelper testOutputHelper)
     {
-        private class ReasonNotImplemented : Reason { }
+        _testOutputHelper = testOutputHelper;
+    }
 
-        private readonly ITestOutputHelper _testOutputHelper;
-
-        public Benchmark(ITestOutputHelper testOutputHelper)
+    private string MethodThrowingException(int counter)
+    {
+        if (counter == 0)
         {
-            _testOutputHelper = testOutputHelper;
+            throw new NotImplementedException();
         }
 
-        private string MethodThrowingException(int counter)
-        {
-            if (counter == 0)
-            {
-                throw new NotImplementedException();
-            }
+        return MethodThrowingException(--counter);
+    }
 
-            return MethodThrowingException(--counter);
+    private R<string> MethodReturningResult(int counter)
+    {
+        if (counter == 0)
+        {
+            return Reason.New<ReasonNotImplemented>();
         }
 
-        private R<string> MethodReturningResult(int counter)
+        var result = MethodReturningResult(--counter);
+        if (result.IsNotSuccessful)
         {
-            if (counter == 0)
-            {
-                return Reason.New<ReasonNotImplemented>();
-            }
+            return result.Reason;
+        }
 
-            var result = MethodReturningResult(--counter);
+        throw new InvalidOperationException("This should not happen in this test");
+    }
+
+    private const int CallStackSize = 0;
+
+    [Theory(Skip = "Integration")]
+    [InlineData(1)]
+    [InlineData(100)]
+    [InlineData(10000)]
+    [InlineData(1000000)]
+    public void MeasureWithException(int count)
+    {
+        var stopwatch = Stopwatch.StartNew();
+
+        for (var i = 0; i < count; i++)
+        {
+            try
+            {
+                MethodThrowingException(CallStackSize);
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        stopwatch.Stop();
+
+        _testOutputHelper.WriteLine($"Count: {count}, Elapsed {stopwatch.ElapsedMilliseconds} ms");
+    }
+
+    [Theory(Skip = "Integration")]
+    [InlineData(1)]
+    [InlineData(100)]
+    [InlineData(10000)]
+    [InlineData(1000000)]
+    public void MeasureWithResult(int count)
+    {
+        var stopwatch = Stopwatch.StartNew();
+
+        for (var i = 0; i < count; i++)
+        {
+            var result = MethodReturningResult(CallStackSize);
             if (result.IsNotSuccessful)
             {
-                return result.Reason;
+                //var aa = result.Reason.PrintCallStack();
+                // do something
             }
-
-            throw new InvalidOperationException("This should not happen in this test");
         }
 
-        private const int CallStackSize = 0;
+        stopwatch.Stop();
 
-        [Theory(Skip = "Integration")]
-        [InlineData(1)]
-        [InlineData(100)]
-        [InlineData(10000)]
-        [InlineData(1000000)]
-        public void MeasureWithException(int count)
-        {
-            var stopwatch = Stopwatch.StartNew();
-
-            for (var i = 0; i < count; i++)
-            {
-                try
-                {
-                    MethodThrowingException(CallStackSize);
-                }
-                catch
-                {
-                    // ignored
-                }
-            }
-
-            stopwatch.Stop();
-
-            _testOutputHelper.WriteLine($"Count: {count}, Elapsed {stopwatch.ElapsedMilliseconds} ms");
-        }
-
-        [Theory(Skip = "Integration")]
-        [InlineData(1)]
-        [InlineData(100)]
-        [InlineData(10000)]
-        [InlineData(1000000)]
-        public void MeasureWithResult(int count)
-        {
-            var stopwatch = Stopwatch.StartNew();
-
-            for (var i = 0; i < count; i++)
-            {
-                var result = MethodReturningResult(CallStackSize);
-                if (result.IsNotSuccessful)
-                {
-                    //var aa = result.Reason.PrintCallStack();
-                    // do something
-                }
-            }
-
-            stopwatch.Stop();
-
-            _testOutputHelper.WriteLine($"Count: {count}, Elapsed {stopwatch.ElapsedMilliseconds} ms");
-        }
+        _testOutputHelper.WriteLine($"Count: {count}, Elapsed {stopwatch.ElapsedMilliseconds} ms");
     }
 }

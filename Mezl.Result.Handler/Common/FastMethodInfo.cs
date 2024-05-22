@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Mezl.Result.Handler;
+namespace Mezl.Result.Handler.Common;
 
 internal class FastMethodInfo
 {

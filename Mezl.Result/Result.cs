@@ -46,21 +46,3 @@ public class R<TValue> : R
 
     public static implicit operator Reason(R<TValue> value) => value.Reason;
 }
-
-/// <summary>
-/// For these who do not like R
-/// </summary>
-public class Result<TValue> : R<TValue>
-{
-    protected internal Result(TValue value) : base(value) { }
-
-    protected internal Result(Reason value) : base(value) { }
-}
-
-/// <summary>
-/// For these who do not like R
-/// </summary>
-public class Result : R
-{
-    protected internal Result(Reason value) : base(value) { }
-}

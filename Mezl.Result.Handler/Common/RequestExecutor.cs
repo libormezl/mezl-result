@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Mezl.Result.Handler;
+namespace Mezl.Result.Handler.Common;
 
 internal class RequestExecutor : IRequestExecutor
 {
@@ -107,7 +107,7 @@ internal class RequestExecutor : IRequestExecutor
         return R.Success;
     }
 
-    private static FastMethodInfo? FastMethodInfo(Type handlerType, MemberInfo requestType, IDictionary<Type, FastMethodInfo> cache, string name, bool throwOnNull)
+    private static FastMethodInfo FastMethodInfo(Type handlerType, MemberInfo requestType, IDictionary<Type, FastMethodInfo> cache, string name, bool throwOnNull)
     {
         if (cache.TryGetValue(handlerType, out var handleInfo) == false)
         {

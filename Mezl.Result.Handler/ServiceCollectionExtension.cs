@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Mezl.Result.Handler.Common;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Mezl.Result.Handler;

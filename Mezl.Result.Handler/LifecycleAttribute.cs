@@ -1,19 +1,18 @@
-﻿namespace Mezl.Result.Handler
+﻿namespace Mezl.Result.Handler;
+
+public enum Lifecycle
 {
-    public enum Lifecycle
-    {
-        Transient,
-        Singleton,
-        Scoped
-    }
+    Transient,
+    Singleton,
+    Scoped
+}
 
-    public class LifecycleAttribute : Attribute
-    {
-        public Lifecycle Lifecycle { get; }
+public class LifecycleAttribute : Attribute
+{
+    public Lifecycle Lifecycle { get; }
 
-        public LifecycleAttribute(Lifecycle lifecycle)
-        {
-            Lifecycle = lifecycle;
-        }
+    public LifecycleAttribute(Lifecycle lifecycle)
+    {
+        Lifecycle = lifecycle;
     }
 }

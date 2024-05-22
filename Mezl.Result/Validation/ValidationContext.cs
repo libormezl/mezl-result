@@ -5,10 +5,9 @@ namespace Mezl.Result.Validation;
 
 public class ValidationContext
 {
+    private Dictionary<string, IReadOnlyCollection<string>> _dictionary;
 
-    private Dictionary<string, List<string>> _dictionary;
-
-    public IReadOnlyDictionary<string, IReadOnlyCollection<string>> Errors => _dictionary as IReadOnlyDictionary<string, IReadOnlyCollection<string>>;
+    public IReadOnlyDictionary<string, IReadOnlyCollection<string>> Errors => _dictionary;
 
     public PropertyValidator<T> Property<T>(T value, [CallerArgumentExpression("value")] string propertyName = default)
     {
@@ -20,11 +19,12 @@ public class ValidationContext
         if (propertyName == null) throw new ArgumentNullException(nameof(propertyName));
         if (error == null) throw new ArgumentNullException(nameof(error));
 
-        _dictionary ??= new Dictionary<string, List<string>>();
+        _dictionary ??= new Dictionary<string, IReadOnlyCollection<string>>();
 
         if (_dictionary.TryGetValue(propertyName, out var errors))
         {
-            errors.Add(error);
+            var errorAsList = errors as List<string>;
+            errorAsList?.Add(error);
         }
         else
         {
@@ -36,7 +36,7 @@ public class ValidationContext
     {
         if (_dictionary != null && _dictionary.Any())
         {
-            return Reason.New<ReasonValidationFailed>().AddInit(_dictionary);
+            return Reason.New<ReasonValidationFailed>("Validation failed").Init(_dictionary);
         }
 
         return R.Success;
