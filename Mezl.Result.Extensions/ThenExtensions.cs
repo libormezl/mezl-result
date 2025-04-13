@@ -1,8 +1,8 @@
 ﻿namespace Mezl.Result.Extensions;
 
-public static class ThenDoExtensions
+public static class ThenExtensions
 {
-    public static async Task<R<TRValue>> ThenDoAsync<TRValue>(this Task<R<TRValue>> resultTask, Func<TRValue, Task> onValue)
+    public static async Task<R<TNextValue>> ThenAsync<TRValue, TNextValue>(this Task<R<TRValue>> resultTask, Func<TRValue, Task<R<TNextValue>>> onValue)
     {
         var result = await resultTask;
         if (result.IsNotSuccessful)
@@ -10,13 +10,11 @@ public static class ThenDoExtensions
             return result.Reason;
         }
 
-        await onValue(result.Value)
+        return await onValue(result.Value)
             .ConfigureAwait(false);
-
-        return result.Value;
     }
 
-    public static async Task<R<TRValue>> ThenDo<TRValue>(this Task<R<TRValue>> resultTask, Action<TRValue> onValue)
+    public static async Task<R<TNextValue>> ThenAsync<TRValue, TNextValue>(this Task<R<TRValue>> resultTask, Func<TRValue, Task<TNextValue>> onValue)
     {
         var result = await resultTask;
         if (result.IsNotSuccessful)
@@ -24,18 +22,74 @@ public static class ThenDoExtensions
             return result.Reason;
         }
 
-        onValue(result.Value);
-        return result.Value;
+        return await onValue(result.Value)
+            .ConfigureAwait(false);
     }
 
-    public static R<TRValue> ThenDo<TRValue>(this R<TRValue> result, Action<TRValue> onValue)
+    // -----
+    public static async Task<R<TNextValue>> ThenAsync<TRValue, TNextValue>(this R<TRValue> result, Func<TRValue, Task<R<TNextValue>>> onValue)
     {
         if (result.IsNotSuccessful)
         {
             return result.Reason;
         }
 
-        onValue(result.Value);
-        return result.Value; ;
+        return await onValue(result.Value)
+            .ConfigureAwait(false);
+    }
+
+    public static async Task<R<TNextValue>> ThenAsync<TRValue, TNextValue>(this R<TRValue> result, Func<TRValue, Task<TNextValue>> onValue)
+    {
+        if (result.IsNotSuccessful)
+        {
+            return result.Reason;
+        }
+
+        return await onValue(result.Value)
+            .ConfigureAwait(false);
+    }
+
+    // -----
+    public static async Task<R<TNextValue>> ThenAsync<TRValue, TNextValue>(this Task<R<TRValue>> resultTask, Func<TRValue, R<TNextValue>> onValue)
+    {
+        var result = await resultTask;
+        if (result.IsNotSuccessful)
+        {
+            return result.Reason;
+        }
+
+        return onValue(result.Value);
+    }
+
+    public static async Task<R<TNextValue>> ThenAsync<TRValue, TNextValue>(this Task<R<TRValue>> resultTask, Func<TRValue, TNextValue> onValue)
+    {
+        var result = await resultTask;
+        if (result.IsNotSuccessful)
+        {
+            return result.Reason;
+        }
+
+        return onValue(result.Value);
+    }
+
+    // -----
+    public static R<TNextValue> Then<TRValue, TNextValue>(this R<TRValue> result, Func<TRValue, R<TNextValue>> onValue)
+    {
+        if (result.IsNotSuccessful)
+        {
+            return result.Reason;
+        }
+
+        return onValue(result.Value);
+    }
+
+    public static R<TNextValue> Then<TRValue, TNextValue>(this R<TRValue> result, Func<TRValue, TNextValue> onValue)
+    {
+        if (result.IsNotSuccessful)
+        {
+            return result.Reason;
+        }
+
+        return onValue(result.Value);
     }
 }

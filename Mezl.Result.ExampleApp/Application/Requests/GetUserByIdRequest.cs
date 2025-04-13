@@ -1,4 +1,7 @@
-﻿using Mezl.Result.Handler;
+﻿using Mezl.Result.ExampleApp.Application.Repositories;
+using Mezl.Result.Extensions;
+using Mezl.Result.Handler;
+using Mezl.Result.Reasons;
 using Mezl.Result.Validation;
 
 namespace Mezl.Result.ExampleApp.Application.Requests;
@@ -19,8 +22,19 @@ public class UserByIdValidator : IValidator<GetUserByIdRequest>
 
 public class UserByIdHandler : IAsyncRequestHandler<GetUserByIdRequest, UserByIdResponse>
 {
-    public Task<R<UserByIdResponse>> HandleAsync(GetUserByIdRequest request, CancellationToken cancellationToken)
+    private readonly UserRepository _userRepository;
+
+    public UserByIdHandler(UserRepository userRepository)
     {
-        throw new NotImplementedException();
+        _userRepository = userRepository;
+    }
+
+    public async Task<R<UserByIdResponse>> HandleAsync(GetUserByIdRequest request, CancellationToken cancellationToken)
+    {
+        return await _userRepository.GetUserById(request.Id, cancellationToken)
+            .ReasonIf(user => user == null, new ReasonNotFound())
+            .ReasonIfAsync(User => Task.FromResult(User != null), Reason.New<ReasonNotFound>())
+            .ThenAsync(user => user with { Age = 11 })
+            .ThenAsync(user => new UserByIdResponse(user.Name, user.UserName, user.Email, user.Age));
     }
 }

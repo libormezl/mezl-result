@@ -5,7 +5,7 @@ namespace Mezl.Result.ExampleApp.Application.Repositories;
 
 public class UserRepository
 {
-    public R<User> GetUserByEmail(string email)
+    public R<User> GetUserByEmail(string email, CancellationToken _ = default)
     {
         if (email == "bob@test.com")
         {
@@ -20,7 +20,22 @@ public class UserRepository
         return Reason.New<ReasonNotFound>();
     }
 
-    public R<User> GetUserByUserName(string userName)
+    public R<User> GetUserById(int id, CancellationToken _ = default)
+    {
+        if (id == 1)
+        {
+            return new User("bob bober", "bob", "bob@test.com", 52);
+        }
+
+        if (id == 2)
+        {
+            return new User("alice aliceer", "alice", "alice@test.com", 52);
+        }
+
+        return Reason.New<ReasonNotFound>();
+    }
+
+    public R<User> GetUserByUserName(string userName, CancellationToken _ = default)
     {
         if (userName == "bob")
         {
@@ -35,7 +50,7 @@ public class UserRepository
         return Reason.New<ReasonNotFound>();
     }
 
-    public async Task<R<string>> SaveUserAsync(CreateUserRequest request, CancellationToken cancellationToken)
+    public async Task<R<string>> SaveUserAsync(CreateUserRequest request, CancellationToken cancellationToken = default)
     {
         return "new id";
     }
