@@ -82,7 +82,7 @@ public static class ServiceCollectionExtension
             }
         }
 
-        collection.AddSingleton<IRequestExecutor, RequestExecutor>();
+        collection.AddScoped<IRequestExecutor, RequestExecutor>();
         collection.AddSingleton(handlersCache);
         collection.AddSingleton(validatorsCache);
         return collection;

@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Microsoft.Extensions.Logging;
 
 namespace Mezl.Result.Handler.Common;
 
@@ -7,15 +8,17 @@ internal class RequestExecutor : IRequestExecutor
     private readonly IServiceProvider _serviceProvider;
     private readonly HandlersCache _handlersCache;
     private readonly ValidatorsCache _validatorsCache;
+    private readonly ILogger<RequestExecutor> _logger;
     private readonly Dictionary<Type, FastMethodInfo> _handlersMethodCache = new();
     private readonly Dictionary<Type, FastMethodInfo> _validatorsMethodCache = new();
     private readonly Dictionary<Type, FastMethodInfo> _asyncValidatorsMethodCache = new();
 
-    public RequestExecutor(IServiceProvider serviceProvider, HandlersCache handlersCache, ValidatorsCache validatorsCache)
+    public RequestExecutor(IServiceProvider serviceProvider, HandlersCache handlersCache, ValidatorsCache validatorsCache, ILogger<RequestExecutor> logger)
     {
         _serviceProvider = serviceProvider;
         _handlersCache = handlersCache;
         _validatorsCache = validatorsCache;
+        _logger = logger;
     }
 
     public async Task<R<TResponse>> ExecuteAsync<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken)
@@ -74,7 +77,14 @@ internal class RequestExecutor : IRequestExecutor
 
         var handler = FastMethodInfo(handlerType, requestType, _handlersMethodCache, "HandleAsync", true);
 
-        await (handler!.Invoke(handlerObject, request, CancellationToken.None) as Task)!;
+        try
+        {
+            await (handler!.Invoke(handlerObject, request, CancellationToken.None) as Task)!;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, $"Error while handling notification '{requestType.Name}!");
+        }
     }
 
     private async Task<R> ValidationResultReason(object request, CancellationToken cancellationToken, Type requestType)
